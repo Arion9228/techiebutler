@@ -18,8 +18,8 @@ type ErrorResponse struct {
 }
 
 const (
-	CONTENT_TYPE     = "Content-Type"        // CONTENT_TYPE is the header key for content type.
-	APPLICATION_JSON = "application/json"    // APPLICATION_JSON is the value for JSON content type.
+	CONTENT_TYPE     = "Content-Type"     // CONTENT_TYPE is the header key for content type.
+	APPLICATION_JSON = "application/json" // APPLICATION_JSON is the value for JSON content type.
 )
 
 // NewEmployeeController creates a new instance of EmployeeController.
@@ -33,6 +33,11 @@ func (controller *EmployeeController) Add(res http.ResponseWriter, req *http.Req
 	var employee domain.Employee
 	err := json.NewDecoder(req.Body).Decode(&employee)
 	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
+		return
+	}
+	if len(employee.Name) == 0 || len(employee.Position) == 0 || employee.Salary == 0 {
 		res.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
 		return
@@ -57,6 +62,11 @@ func (controller *EmployeeController) Get(res http.ResponseWriter, req *http.Req
 		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
 		return
 	}
+	if employee.ID <= 0 {
+		res.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Employee ID"})
+		return
+	}
 	data, err2 := controller.employeeInteractor.GetEmployeeByID(employee)
 	if err2 != nil {
 		res.WriteHeader(http.StatusInternalServerError)
@@ -77,6 +87,11 @@ func (controller *EmployeeController) Update(res http.ResponseWriter, req *http.
 		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
 		return
 	}
+	if employee.ID <= 0 {
+		res.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Employee ID"})
+		return
+	}
 	err2 := controller.employeeInteractor.UpdateEmployee(employee)
 	if err2 != nil {
 		res.WriteHeader(http.StatusInternalServerError)
@@ -84,6 +99,7 @@ func (controller *EmployeeController) Update(res http.ResponseWriter, req *http.
 		return
 	}
 	res.WriteHeader(http.StatusOK)
+	json.NewEncoder(res).Encode("Successfully updated user!")
 }
 
 // Delete handles the HTTP DELETE request to delete an employee.
@@ -96,6 +112,11 @@ func (controller *EmployeeController) Delete(res http.ResponseWriter, req *http.
 		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
 		return
 	}
+	if employee.ID <= 0 {
+		res.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Employee ID"})
+		return
+	}
 	err2 := controller.employeeInteractor.DeleteEmployee(employee)
 	if err2 != nil {
 		res.WriteHeader(http.StatusInternalServerError)
@@ -103,4 +124,5 @@ func (controller *EmployeeController) Delete(res http.ResponseWriter, req *http.
 		return
 	}
 	res.WriteHeader(http.StatusOK)
+	json.NewEncoder(res).Encode("Deletion Successful!")
 }
