@@ -2,14 +2,14 @@ package domain
 
 type Employee struct {
 	ID       int     `json:"id"`
-	Name     string  `json:"name"`
-	Position string  `json:"position"`
-	Salary   float64 `json:"salary"`
+	Name     string  `json:"name,omitempty"`
+	Position string  `json:"position,omitempty"`
+	Salary   float64 `json:"salary,omitempty"`
 }
 
 type EmployeeRepository interface {
-	CreateEmployee(employee Employee) error
-	GetEmployeeByID(id int) (Employee, error)
-	UpdateEmployee(employee Employee) error
-	DeleteEmployee(id int) error
+	CreateEmployee(Employee) error
+	GetEmployeeByID(Employee) (Employee, error)
+	UpdateEmployee(Employee) error
+	DeleteEmployee(Employee) error
 }

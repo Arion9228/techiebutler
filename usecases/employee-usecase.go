@@ -22,8 +22,8 @@ func (interactor *EmployeeInteractor) CreateEmployee(employee domain.Employee) e
 	return nil
 }
 
-func (interactor *EmployeeInteractor) GetEmployeeByID(id int) (domain.Employee, error) {
-	employee, err := interactor.EmployeeRepository.GetEmployeeByID(id)
+func (interactor *EmployeeInteractor) GetEmployeeByID(employee domain.Employee) (domain.Employee, error) {
+	employee, err := interactor.EmployeeRepository.GetEmployeeByID(employee)
 	if err != nil {
 		log.Println(err.Error())
 		return domain.Employee{}, err
@@ -40,8 +40,8 @@ func (interactor *EmployeeInteractor) UpdateEmployee(employee domain.Employee) e
 	return nil
 }
 
-func (interactor *EmployeeInteractor) DeleteEmployee(id int) error {
-	err := interactor.EmployeeRepository.DeleteEmployee(id)
+func (interactor *EmployeeInteractor) DeleteEmployee(employee domain.Employee) error {
+	err := interactor.EmployeeRepository.DeleteEmployee(employee)
 	if err != nil {
 		log.Println(err.Error())
 		return err

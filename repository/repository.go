@@ -3,8 +3,8 @@ package repository
 import "techiebutler/assessment/domain"
 
 type DBHandler interface {
-	CreateEmployee(employee domain.Employee) error
-	GetEmployeeByID(id int) (domain.Employee, error)
-	UpdateEmployee(employee domain.Employee) error
-	DeleteEmployee(id int) error
+	CreateEmployee(domain.Employee) error
+	GetEmployeeByID(domain.Employee) (domain.Employee, error)
+	UpdateEmployee(domain.Employee) error
+	DeleteEmployee(domain.Employee) error
 }

@@ -20,8 +20,8 @@ func (repo EmployeeRepo) CreateEmployee(employee domain.Employee) error {
 	return nil
 }
 
-func (repo EmployeeRepo) GetEmployeeByID(id int) (domain.Employee, error) {
-	employee, err := repo.handler.GetEmployeeByID(id)
+func (repo EmployeeRepo) GetEmployeeByID(employee domain.Employee) (domain.Employee, error) {
+	employee, err := repo.handler.GetEmployeeByID(employee)
 	if err != nil {
 		return domain.Employee{}, err
 	}
@@ -36,8 +36,8 @@ func (repo EmployeeRepo) UpdateEmployee(employee domain.Employee) error {
 	return nil
 }
 
-func (repo EmployeeRepo) DeleteEmployee(id int) error {
-	err := repo.handler.DeleteEmployee(id)
+func (repo EmployeeRepo) DeleteEmployee(employee domain.Employee) error {
+	err := repo.handler.DeleteEmployee(employee)
 	if err != nil {
 		return err
 	}
