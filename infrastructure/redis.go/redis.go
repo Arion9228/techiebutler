@@ -7,12 +7,13 @@ import (
 	redis "github.com/go-redis/redis/v8"
 )
 
+// NewClient creates a new Redis client and returns it.
 func NewClient() *redis.Client {
 	// Create a new Redis client
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379", // Redis server address
-		Password: "",               // No password set
-		DB:       0,                // Use the default database
+		Password: "",                // No password set
+		DB:       0,                 // Use the default database
 	})
 	err := Ping(client)
 	if err != nil {
