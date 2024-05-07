@@ -5,7 +5,7 @@ import (
 )
 
 type DBHandler interface {
-	CreateEmployee(domain.Employee) error
+	CreateEmployee(domain.Employee) (domain.Employee, error)
 	GetEmployeeByID(domain.Employee) (domain.Employee, error)
 	UpdateEmployee(domain.Employee) error
 	DeleteEmployee(domain.Employee) error
@@ -19,12 +19,12 @@ func NewEmployeeRepo(handler DBHandler) EmployeeRepo {
 	return EmployeeRepo{handler}
 }
 
-func (repo EmployeeRepo) CreateEmployee(employee domain.Employee) error {
-	err := repo.handler.CreateEmployee(employee)
+func (repo EmployeeRepo) CreateEmployee(employee domain.Employee) (domain.Employee, error) {
+	employee, err := repo.handler.CreateEmployee(employee)
 	if err != nil {
-		return err
+		return domain.Employee{}, err
 	}
-	return nil
+	return employee, nil
 }
 
 func (repo EmployeeRepo) GetEmployeeByID(employee domain.Employee) (domain.Employee, error) {

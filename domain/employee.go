@@ -8,7 +8,7 @@ type Employee struct {
 }
 
 type EmployeeRepository interface {
-	CreateEmployee(Employee) error
+	CreateEmployee(Employee) (Employee, error)
 	GetEmployeeByID(Employee) (Employee, error)
 	UpdateEmployee(Employee) error
 	DeleteEmployee(Employee) error

@@ -33,13 +33,14 @@ func (controller *EmployeeController) Add(res http.ResponseWriter, req *http.Req
 		json.NewEncoder(res).Encode(ErrorResponse{Message: "Invalid Payload"})
 		return
 	}
-	err2 := controller.employeeInteractor.CreateEmployee(employee)
+	employee, err2 := controller.employeeInteractor.CreateEmployee(employee)
 	if err2 != nil {
 		res.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(res).Encode(ErrorResponse{Message: err2.Error()})
 		return
 	}
 	res.WriteHeader(http.StatusOK)
+	json.NewEncoder(res).Encode(employee)
 }
 
 func (controller *EmployeeController) Get(res http.ResponseWriter, req *http.Request) {

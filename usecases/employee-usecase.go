@@ -13,13 +13,13 @@ func NewEmployeeInteractor(repository domain.EmployeeRepository) EmployeeInterac
 	return EmployeeInteractor{repository}
 }
 
-func (interactor *EmployeeInteractor) CreateEmployee(employee domain.Employee) error {
-	err := interactor.EmployeeRepository.CreateEmployee(employee)
+func (interactor *EmployeeInteractor) CreateEmployee(employee domain.Employee) (domain.Employee, error) {
+	employee, err := interactor.EmployeeRepository.CreateEmployee(employee)
 	if err != nil {
 		log.Println(err.Error())
-		return err
+		return domain.Employee{}, err
 	}
-	return nil
+	return employee, nil
 }
 
 func (interactor *EmployeeInteractor) GetEmployeeByID(employee domain.Employee) (domain.Employee, error) {
